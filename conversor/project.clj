@@ -5,7 +5,7 @@
             :url "https://www.eclipse.org/legal/epl-2.0/"}
   :dependencies [[org.clojure/clojure "1.10.1"]
                  [clj-http "3.10.2"]
-                 [chesire "5.8.1"]
+                 [cheshire "5.8.1"]
                  [org.clojure/tools.cli "0.3.5"]]
   :main ^:skip-aot conversor.core
   :target-path "target/%s"
