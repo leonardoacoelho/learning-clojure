@@ -23,3 +23,6 @@
 
 (defn saldo []
     (reduce calcular 0 @registros))
+
+(defn transacoes-do-tipo [tipo]
+    (filter (fn [a] (= tipo (:tipo a))) (transacoes)))
