@@ -34,5 +34,4 @@
             (registrar {:valor 10 :tipo "receita"})
             (registrar {:valor 200 :tipo "despesa"})
             (registrar {:valor 1000 :tipo "receita"})
-            
             (saldo) => 808)))

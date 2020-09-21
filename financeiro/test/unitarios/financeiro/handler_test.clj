@@ -12,27 +12,26 @@
     (fact "o texto do corpo e 'Ola, mundo!'"
         (:body response) => "Ola, mundo!")))
 
-(facts "Saldo inicial e 0"
-  (against-background [(json/generate-string {:saldo 0}) => "{\"saldo\":0}"
-    (db/saldo) => 0])
-
-    (let [response (app (mock/request :get "/saldo"))]
-      (fact "o formato e 'application/json"
-        (get-in response [:headers "Content-Type"]) => "application/json; charset=utf-8")
+  (against-background [(before :facts (db/limpar))]
+    (fact "o formato e 'application/json"
+      (let [response (app (mock/request :get "/saldo"))]
+        (get-in response [:headers "Content-Type"]) => "application/json; charset=utf-8"))
 
       (fact "o status da resposta e 200"
-          (:status response) => 200)
+        (let [response (app (mock/request :get "/saldo"))]
+          (:status response) => 200))
 
       (fact "o texto do corpo e um JSON cuja chave e saldo e o valor e 0"
+        (let [response (app (mock/request :get "/saldo"))]
           (:body response) => "{\"saldo\":0}")))
 
 (facts "Rota invalida nao existe"
   (let [response (app (mock/request :get "/invalid"))]
-  (fact "o codigo de erro é 404"
-      (:status response) => 404)
+    (fact "o codigo de erro é 404"
+        (:status response) => 404)
 
-  (fact "o codigo de erro é 404"
-      (:body response) => "Recurso nao encontrado")))
+    (fact "o codigo de erro é 404"
+        (:body response) => "Recurso nao encontrado")))
 
 (facts "Registra uma receita no valor de 10"
   (against-background (db/registrar {:valor 10 :tipo "receita"}) => {:id 1 :valor 10 :tipo "receita"})

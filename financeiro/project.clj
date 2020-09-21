@@ -3,11 +3,11 @@
   :url "http://example.com/FIXME"
   :min-lein-version "2.0.0"
   :dependencies [[org.clojure/clojure "1.10.0"]
-                 [compojure "1.6.1"]
-                 [cheshire "5.8.1"]
+                 [compojure "1.6.2"]
+                 [cheshire "5.10.0"]
                  [ring/ring-defaults "0.3.2"]
-                 [ring/ring-json "0.4.0"]
-                 [clj-http "3.9.1"]]
+                 [ring/ring-json "0.5.0"]
+                 [clj-http "3.10.2"]]
   :plugins [[lein-ring "0.12.5"]]
   :ring {:handler financeiro.handler/app}
   :profiles
