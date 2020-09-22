@@ -22,10 +22,10 @@
 )
 
 (def transacoes-aleatorias
-    '({:valor 7M :tipo "despesa"}
-        {:valor 88M :tipo "despesa"}
-        {:valor 106M :tipo "despesa"}
-        {:valor 8000M :tipo "receita"}))
+    '({:valor 7M :tipo "despesa" :rotulos ["sorvete" "entretenimento"]}
+        {:valor 88M :tipo "despesa" :rotulos ["livro" "educacao"]}
+        {:valor 106M :tipo "despesa" :rotulos ["curso" "educacao"]}
+        {:valor 8000M :tipo "receita" :rotulos ["salario"]}))
 
 (against-background [(before :facts [
                       (iniciar-servidor porta-padrao)
@@ -41,4 +41,14 @@
         (count (:transacoes (json/parse-string (conteudo "/receitas") true))) => 1)
 
     (fact "Existem 4 transacoes" :aceitacao
-        (count (:transacoes (json/parse-string (conteudo "/transacoes") true))) => 4))
+        (count (:transacoes (json/parse-string (conteudo "/transacoes") true))) => 4)
+        
+    (fact "Existe 1 receita com o rotulo 'salario'"
+        (count (:transacoes (json/parse-string (conteudo "/transacoes?rotulos=salario") true))) => 1)
+
+    (fact "Existe 2 receita com o rotulo 'livro' ou 'curso'"
+        (count (:transacoes (json/parse-string (conteudo "/transacoes?rotulos=livro&rotulos=curso") true))) => 2)
+
+    (fact "Existe 2 receita com o rotulo 'educacao'"
+        (count (:transacoes (json/parse-string (conteudo "/transacoes?rotulos=educacao") true))) => 2)
+)

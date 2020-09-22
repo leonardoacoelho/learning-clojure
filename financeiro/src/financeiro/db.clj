@@ -26,3 +26,10 @@
 
 (defn transacoes-do-tipo [tipo]
     (filter (fn [a] (= tipo (:tipo a))) (transacoes)))
+
+(defn transacoes-com-filtro [filtros]
+    (let [rotulos (->> (:rotulos filtros)
+                        (conj [])
+                        (flatten)
+                        (set))]
+        (filter #(some rotulos (:rotulos %)) (transacoes))))

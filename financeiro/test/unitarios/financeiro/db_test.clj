@@ -51,3 +51,22 @@
             
         (fact "encontra apenas despesas"
             (transacoes-do-tipo "despesa") => '({:valor 2 :tipo "despesa"} {:valor 200 :tipo "despesa"}))))
+
+(facts "Filtra transacao por rotulo"
+    (def transacoes-aleatorias
+        '({:valor 7M :tipo "despesa" :rotulos ["sorvete" "entretenimento"]}
+            {:valor 88M :tipo "despesa" :rotulos ["livro" "educacao"]}
+            {:valor 106M :tipo "despesa" :rotulos ["curso" "educacao"]}
+            {:valor 8000M :tipo "receita" :rotulos ["salario"]}))
+
+    (against-background [(before :facts [(limpar)
+                            (doseq [transacao transacoes-aleatorias]
+                                (registrar transacao))])]
+    
+    (fact "encontra a transacao com rotulo 'salario'"
+        (transacoes-com-filtro {:rotulos ["salario"]}) => '({:valor 8000M :tipo "receita" :rotulos ["salario"]}))
+    
+    (fact "encontra 2 transacoes com rotulo 'educacao'"
+        (transacoes-com-filtro {:rotulos ["educacao"]}) => '({:valor 88M :tipo "despesa" :rotulos ["livro" "educacao"]}
+        {:valor 106M :tipo "despesa" :rotulos ["curso" "educacao"]}))
+))

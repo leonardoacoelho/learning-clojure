@@ -20,8 +20,11 @@
       (-> (db/registrar (:body requisicao)) 
           (como-json 201))
       (como-json {:mensagem "Requisicao invalida"} 422)))
-  (GET "/transacoes" [] 
-    (como-json {:transacoes (db/transacoes)}))
+  (GET "/transacoes" {filtros :params}
+    (como-json {:transacoes 
+                (if (empty? filtros)
+                  (db/transacoes)
+                  (db/transacoes-com-filtro filtros))}))
   (GET "/receitas" [] 
     (como-json {:transacoes (db/transacoes-do-tipo "receita")}))
   (GET "/despesas" [] 
